@@ -39,7 +39,12 @@ export default function SendScreen({ navigation }: SendScreenProps) {
       <View style={styles.fields}>
         {networkError && (
           <View testID="error-banner" style={styles.errorBanner}>
-            <Text style={styles.errorText}>No network connection. Please try again.</Text>
+            <Text testID="error-message" style={styles.errorText}>
+              Network unavailable. Please try again.
+            </Text>
+            <TouchableOpacity testID="retry-btn" onPress={handleConfirm} style={styles.retryBtn}>
+              <Text style={styles.retryText}>Retry</Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -117,6 +122,16 @@ const styles = StyleSheet.create({
   errorText: {
     color: '#C62828',
     fontSize: 14,
+  },
+  retryBtn: {
+    marginTop: 8,
+    alignSelf: 'flex-start',
+  },
+  retryText: {
+    color: '#C62828',
+    fontSize: 14,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
   },
   footer: {
     padding: 16,

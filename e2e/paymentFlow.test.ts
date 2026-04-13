@@ -70,8 +70,6 @@ describe('Payment Flow — Network Degradation', () => {
     await element(by.id('send-recipient-input')).typeText('friend@example.com');
     await element(by.id('send-confirm-btn')).tap();
 
-    // Loading state should appear and resolve
-    // await detoxExpect(element(by.id('loading-indicator'))).toBeVisible();
     await waitFor(element(by.id('confirmation-screen')))
       .toBeVisible()
       .withTimeout(15000); // Higher timeout for slow network
@@ -99,10 +97,6 @@ describe('Payment Flow — Device State Edge Cases', () => {
     await element(by.id('send-amount-input')).typeText('500.00'); // High amount triggers auth
     await element(by.id('send-recipient-input')).typeText('friend@example.com');
     await element(by.id('send-confirm-btn')).tap();
-
-    // Auth prompt appears for large amounts
-    // await waitFor(element(by.id('auth-prompt'))).toBeVisible().withTimeout(3000);
-    // await device.matchFace(); // or device.matchFinger()
 
     await waitFor(element(by.id('confirmation-screen')))
       .toBeVisible()

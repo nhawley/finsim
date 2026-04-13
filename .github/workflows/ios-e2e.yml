@@ -1,0 +1,38 @@
+name: FinSim iOS E2E
+
+on:
+  workflow_dispatch:
+
+jobs:
+  detox-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Install Ruby dependencies
+        run: bundle install
+
+      - name: Install CocoaPods
+        run: bundle exec pod install
+        working-directory: ios
+
+      - name: Build iOS app for Detox
+        run: npx detox build -c ios.sim.debug
+
+      - name: Run Detox E2E (iOS)
+        run: npx detox test -c ios.sim.debug --record-logs all
+
+      - name: Upload Detox artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detox-ios-artifacts
+          path: artifacts/
+          retention-days: 7
