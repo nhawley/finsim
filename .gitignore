@@ -73,3 +73,11 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Common project ignores
+*.log
+*.tmp
+.DS_Store
+data/raw/*
+data/processed/*
+todos/

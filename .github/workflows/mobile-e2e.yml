@@ -1,0 +1,33 @@
+name: FinSim Mobile E2E
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  detox-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build Android test APKs
+        run: cd android && ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug
+      - name: Run Detox E2E (Android)
+        run: npx detox test -c android.emu.debug --headless --record-logs all
+      - name: Upload Detox artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detox-artifacts
+          path: artifacts/
+          retention-days: 7
