@@ -1,4 +1,4 @@
-name: FinSim Mobile E2E
+name: FinSim Droid E2E
 
 on:
   push:
